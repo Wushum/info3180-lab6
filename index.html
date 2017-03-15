@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<script src="angular.min.js"></script>
+<link rel="stylesheet" href="shop.css">
 <body>
 
 <script>
@@ -8,9 +10,16 @@ var app = angular.module("myShoppingList", []);
 app.controller("myCtrl", function($scope) {
     $scope.products = ["Milk", "Bread", "Cheese"];
     $scope.addItem = function () {
-        $scope.products.push($scope.addMe);
-    }    
+        $scope.errortext = "";
+        if (!$scope.addMe) {return;}        
+        if ($scope.products.indexOf($scope.addMe) == -1) {
+            $scope.products.push($scope.addMe);
+        } else {
+            $scope.errortext = "The item is already in your shopping list.";
+        }
+    }
     $scope.removeItem = function (x) {
+        $scope.errortext = "";    
         $scope.products.splice(x, 1);
     }
 });
@@ -22,9 +31,10 @@ app.controller("myCtrl", function($scope) {
   </ul>
   <input ng-model="addMe">
   <button ng-click="addItem()">Add</button>
+  <p>{{errortext}}</p>
 </div>
 
-<p>Click the little x to remove an item from the shopping list.</p>
+<p>Try to add the same item twice, and you will get an error message.</p>
 
 </body>
 </html>
